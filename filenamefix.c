@@ -133,7 +133,7 @@ char *strmove(char *dest, const char *src)
 	* If the move results in an expansion of the string length the
 	* caller must ensure that there is enough room in dest.
 	*/
-	int len = strlen(src);	// number of bytes to move.
+	size_t len = strlen(src);	// number of bytes to move.
 	memmove(dest, src, len);
 	dest[len] = 0;
 	return dest;
