@@ -31,6 +31,7 @@
 
 static int fixit(char *fname);
 static char *removedupstr(char *str, char dup);
+static char *strmove(char *dest, const char *src);
 
 int main(int argc, char **argv)
 { /* get rid of spaces from file names in a dir, and then rename that
@@ -121,8 +122,20 @@ char *removedupstr(char *str, char dup)
 	strcpy(result, str);
 	char *cp = strstr(result, dupstr);
 	while ((cp)) {
-		strcpy(cp, cp+1);
+		strmove(cp, cp+1);
 		cp = strstr(result, dupstr);
 	}
 	return result;
 } // removedupstr()
+
+char *strmove(char *dest, const char *src)
+{ /* Moves src to dest in a manner that src and dest may overlap.
+	* If the move results in an expansion of the string length the
+	* caller must ensure that there is enough room in dest.
+	*/
+	int len = strlen(src);	// number of bytes to move.
+	memmove(dest, src, len);
+	dest[len] = 0;
+	return dest;
+} // strmove()
+
