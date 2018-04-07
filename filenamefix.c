@@ -115,11 +115,14 @@ int fixit(char *fname)
 char *removedupstr(char *str, char dup)
 { /* Replace multiple occurrences of dup in str with just one. */
 	char dupstr[3];
+	static char result[NAME_MAX];
 	dupstr[0] = dupstr[1] = dup;
 	dupstr[2] = 0;
-	char *cp;
-	while ((cp = strstr(str, dupstr))) {
+	strcpy(result, str);
+	char *cp = strstr(result, dupstr);
+	while ((cp)) {
 		strcpy(cp, cp+1);
+		cp = strstr(result, dupstr);
 	}
-	return str;
+	return result;
 } // removedupstr()
